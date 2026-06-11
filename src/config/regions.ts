@@ -1,66 +1,157 @@
-// TODO: implement regions.ts
-export type RegionFieldConfig = {
-  show: string[];
-  hide: string[];
-};
+//  regions.ts
+
+export type RegionId = "bd" | "uk" | "eu" | "international";
+
+export type DocumentType = "CV" | "Resume" | "Biodata";
 
 export type RegionConfig = {
-  id: "BD" | "UK" | "EU" | "INTL";
+  id: RegionId;
   name: string;
   flag: string;
-  documentName: string;
-  fields: RegionFieldConfig;
+  documentName: DocumentType;
+
+  visibleFields: string[];
+  requiredFields: string[];
+
+  maxPages: number;
+  photoRequired: boolean;
+
+  showDeclaration: boolean;
+  showReferences: boolean;
+  showParentsName: boolean;
+
+  pageSize: "A4";
 };
 
-export const REGIONS: RegionConfig[] = [
-  {
-    id: "BD",
+export const REGION_CONFIG: Record<RegionId, RegionConfig> = {
+  bd: {
+    id: "bd",
     name: "Bangladesh",
     flag: "🇧🇩",
-    documentName: "CV - Bangladesh Format",
-    fields: {
-      show: ["personalInfo", "education", "experience", "skills", "photo"],
-      hide: ["drivingLicense", "workAuthorization"],
-    },
+    documentName: "Biodata",
+
+    visibleFields: [
+      "personal",
+      "photo",
+      "summary",
+      "experience",
+      "education",
+      "skills",
+      "languages",
+      "certifications",
+      "projects",
+      "customSections",
+      "fathersName",
+      "mothersName",
+      "religion",
+      "nationality",
+      "nid",
+      "maritalStatus",
+      "dob",
+      "references",
+      "declaration",
+    ],
+
+    requiredFields: ["personal", "experience", "education", "skills"],
+
+    maxPages: 5,
+    photoRequired: true,
+
+    showDeclaration: true,
+    showReferences: true,
+    showParentsName: true,
+
+    pageSize: "A4",
   },
-  {
-    id: "UK",
+
+  uk: {
+    id: "uk",
     name: "United Kingdom",
     flag: "🇬🇧",
-    documentName: "CV - UK Standard",
-    fields: {
-      show: ["personalInfo", "education", "experience", "skills"],
-      hide: ["photo", "nationalId", "maritalStatus"],
-    },
+    documentName: "CV",
+
+    visibleFields: [
+      "personal",
+      "summary",
+      "experience",
+      "education",
+      "skills",
+      "languages",
+      "certifications",
+      "projects",
+      "customSections",
+    ],
+
+    requiredFields: ["personal", "experience", "education"],
+
+    maxPages: 2,
+    photoRequired: false,
+
+    showDeclaration: false,
+    showReferences: false,
+    showParentsName: false,
+
+    pageSize: "A4",
   },
-  {
-    id: "EU",
+
+  eu: {
+    id: "eu",
     name: "European Union",
     flag: "🇪🇺",
-    documentName: "CV - Europass Style",
-    fields: {
-      show: ["personalInfo", "education", "experience", "skills", "languages"],
-      hide: ["photo"],
-    },
+    documentName: "CV",
+
+    visibleFields: [
+      "personal",
+      "photo",
+      "summary",
+      "experience",
+      "education",
+      "skills",
+      "languages",
+      "certifications",
+      "projects",
+      "customSections",
+    ],
+
+    requiredFields: ["personal", "experience", "education", "skills"],
+
+    maxPages: 4,
+    photoRequired: false,
+
+    showDeclaration: false,
+    showReferences: false,
+    showParentsName: false,
+
+    pageSize: "A4",
   },
-  {
-    id: "INTL",
+
+  international: {
+    id: "international",
     name: "International",
     flag: "🌍",
-    documentName: "Resume - International Format",
-    fields: {
-      show: [
-        "personalInfo",
-        "summary",
-        "education",
-        "experience",
-        "skills",
-        "projects",
-      ],
-      hide: [],
-    },
-  },
-];
+    documentName: "Resume",
 
-export const getRegionById = (id: RegionConfig["id"]) =>
-  REGIONS.find((r) => r.id === id);
+    visibleFields: [
+      "personal",
+      "summary",
+      "experience",
+      "education",
+      "skills",
+      "projects",
+      "customSections",
+    ],
+
+    requiredFields: ["personal", "experience", "skills"],
+
+    maxPages: 1,
+    photoRequired: false,
+
+    showDeclaration: false,
+    showReferences: false,
+    showParentsName: false,
+
+    pageSize: "A4",
+  },
+};
+
+export const getRegionConfig = (id: RegionId) => REGION_CONFIG[id];
