@@ -1,4 +1,5 @@
 // src/app/page.tsx
+"use client";
 import RegionPicker from "@/components/onboarding/RegionPicker";
 import { useRouter } from "next/navigation";
 
