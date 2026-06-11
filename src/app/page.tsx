@@ -1,26 +1,25 @@
 // page.tsx
 "use client";
 
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import RegionPicker from "@/components/onboarding/RegionPicker";
 
-export default function Page() {
-  return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
-      <div className="text-center space-y-6">
-        <h1 className="text-4xl font-bold">AI Resume Builder ⚡</h1>
+export default function HomePage() {
+  const router = useRouter();
+  const [ready, setReady] = useState(false);
 
-        <p className="text-gray-600 max-w-md">
-          Build region-perfect CVs for Bangladesh, UK, EU, and International job
-          markets.
-        </p>
+  useEffect(() => {
+    const savedRegion = localStorage.getItem("resume-region");
 
-        <Link
-          href="/(builder)/builder"
-          className="px-6 py-3 rounded-xl bg-black text-white hover:opacity-80 transition"
-        >
-          Start Building
-        </Link>
-      </div>
-    </main>
-  );
+    if (savedRegion) {
+      router.replace("/builder");
+    } else {
+      setReady(true);
+    }
+  }, [router]);
+
+  if (!ready) return null;
+
+  return <RegionPicker />;
 }
