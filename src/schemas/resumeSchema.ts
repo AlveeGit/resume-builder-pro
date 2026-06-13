@@ -110,6 +110,7 @@ const BDExtraSchema = z.object({
  */
 
 export const ResumeSchema = z.object({
+  title: z.string().default("My Resume"),
   personal: PersonalSchema,
 
   photo: z.string().optional(),
