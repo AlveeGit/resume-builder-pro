@@ -1,6 +1,9 @@
+//  src/components/builder/sections/SummarySection.tsx
+
 "use client";
 
 import { useEffect, useState } from "react";
+import { AIAssistButton } from "@/components/ai/AIAssistButton";
 
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -48,11 +51,23 @@ export function SummarySection() {
         className="min-h-[120px]"
       />
 
-      {/* AI ASSIST PLACEHOLDER */}
+      {/* AI ASSIST  */}
       <div className="flex justify-end">
-        <Button variant="outline" size="sm">
-          ✨ AI Assist (coming soon)
-        </Button>
+
+        <AIAssistButton
+          action="generate-summary"
+          label="Generate with AI"
+          data={{
+            name: resume.personal.name,
+            experience: resume.experience,
+            region: resume.region,
+            targetRole: resume.experience?.[0]?.jobTitle || "Professional",
+          }}
+          onResult={(summary) => {
+            setText(summary);
+            updateSummary(summary);
+          }}
+        />{" "}
       </div>
     </div>
   );

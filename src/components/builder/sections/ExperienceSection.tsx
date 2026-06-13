@@ -1,7 +1,10 @@
+//  src/components/builder/sections/ExperienceSection.tsx
 "use client";
 
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+
+import { AIAssistButton } from "@/components/ai/AIAssistButton";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -94,10 +97,32 @@ export function ExperienceSection() {
                 <Label>Currently working here</Label>
               </div>
 
-              <Textarea
-                placeholder="Bullet points (one per line)"
-                {...register(`items.${index}.bullets.0.text`)}
-              />
+              <div className="space-y-2">
+                {" "}
+                <Textarea
+                  placeholder="Achievement bullet"
+                  {...register(`items.${index}.bullets.0.text`)}
+                />{" "}
+                <div className="flex justify-end">
+                  {" "}
+                  <AIAssistButton
+                    action="improve-bullet"
+                    label="Improve with AI"
+                    data={{
+                      bullet: watch(`items.${index}.bullets.0.text`) || "",
+                      jobTitle: watch(`items.${index}.jobTitle`) || "",
+                      region: resume.region,
+                    }}
+                    onResult={(improvedBullet) => {
+                      setValue(
+                        `items.${index}.bullets.0.text`,
+                        improvedBullet,
+                        { shouldDirty: true, shouldTouch: true },
+                      );
+                    }}
+                  />{" "}
+                </div>{" "}
+              </div>
             </div>
 
             <Button
