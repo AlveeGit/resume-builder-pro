@@ -66,6 +66,7 @@ type ResumeStore = ResumeState & ResumeActions;
  */
 
 const createEmptyResume = (): ResumeData => ({
+  title: "My Resume",
   personal: {
     name: "",
     email: "",
