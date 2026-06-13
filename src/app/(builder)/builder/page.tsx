@@ -4,8 +4,10 @@
 import { useState } from "react";
 import { EditorPanel } from "@/components/builder/EditorPanel";
 import { PreviewPanel } from "@/components/builder/PreviewPanel";
+import { useAutoSave } from "@/hooks/useAutoSave";
 
 export default function BuilderPage() {
+  useAutoSave();
   const [mobileView, setMobileView] = useState<"edit" | "preview">("edit");
 
   return (
