@@ -6,6 +6,8 @@ import { useResume } from "@/hooks/useResume";
 
 type SaveStatus = "idle" | "saving" | "saved" | "error";
 
+import { saveResume, createVersion } from "@/lib/supabase/resumeService";
+
 export function useAutoSave() {
   const { resume } = useResume();
 
@@ -17,6 +19,8 @@ export function useAutoSave() {
 
   const lastSavedRef = useRef<string>("");
 
+  const saveCountRef = useRef(0);
+
   const saveToLocal = () => {
     localStorage.setItem("resume-data", JSON.stringify(resume));
     localStorage.setItem("resume-region", resume.region);
@@ -26,19 +30,30 @@ export function useAutoSave() {
     try {
       setStatus("saving");
 
-      const res = await fetch("/api/resume", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: resumeIdRef.current,
-          title: resume.personal?.name || "My Resume",
-          region: resume.region,
-          data: resume,
-          templateId: resume.templateId || "default",
-        }),
-      });
+      // const res = await fetch("/api/resume", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     id: resumeIdRef.current,
+      //     title: resume.personal?.name || "My Resume",
+      //     region: resume.region,
+      //     data: resume,
+      //     templateId: resume.templateId || "default",
+      //   }),
+      // });
+
+      const res = await saveResume(
+        "", // userId will be injected from auth layer later
+        resume,
+        resumeIdRef.current,
+        resume.personal?.name || "My Resume",
+        resume.region,
+        resume.templateId || "default",
+      );
+
+      resumeIdRef.current = res.id;
 
       const data = await res.json();
 
@@ -48,6 +63,15 @@ export function useAutoSave() {
 
       setStatus("saved");
       lastSavedRef.current = JSON.stringify(resume);
+
+      // ersion trigger logic After successful save
+      saveCountRef.current += 1;
+
+      const shouldSnapshot = saveCountRef.current % 10 === 0;
+
+      if (shouldSnapshot) {
+        await createVersion(resumeIdRef.current!, resume, "Auto-save");
+      }
     } catch (err) {
       console.error(err);
       setStatus("error");

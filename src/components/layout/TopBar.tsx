@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { RegionSwitcher } from "@/components/builder/RegionSwitcher";
 import { useResumeStore } from "@/stores/resumeStore";
 import { usePDF } from "@/hooks/usePDF";
+import { HistoryPanel } from "@/components/layout/HistoryPanel";
 
 export function TopBar() {
   const { exportPDF, isExporting } = usePDF();
@@ -58,6 +59,8 @@ export function TopBar() {
 
         {/* RIGHT */}
         <div className="flex items-center gap-2 shrink-0">
+          <HistoryPanel />
+
           <RegionSwitcher />
 
           <Button variant="outline" size="sm" disabled={isSaving}>
