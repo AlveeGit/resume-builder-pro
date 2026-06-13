@@ -10,6 +10,8 @@ export type RegionConfig = {
   flag: string;
   documentName: DocumentType;
 
+  desc: string; // 👈 ADD THIS
+
   visibleFields: string[];
   requiredFields: string[];
 
@@ -29,6 +31,8 @@ export const REGION_CONFIG: Record<RegionId, RegionConfig> = {
     name: "Bangladesh",
     flag: "🇧🇩",
     documentName: "Biodata",
+
+    desc: "Biodata format with photo, family details, and declaration",
 
     visibleFields: [
       "personal",
@@ -70,6 +74,8 @@ export const REGION_CONFIG: Record<RegionId, RegionConfig> = {
     flag: "🇬🇧",
     documentName: "CV",
 
+    desc: "Clean CV format, no photo, max 2 pages",
+
     visibleFields: [
       "personal",
       "summary",
@@ -99,6 +105,8 @@ export const REGION_CONFIG: Record<RegionId, RegionConfig> = {
     name: "European Union",
     flag: "🇪🇺",
     documentName: "CV",
+
+    desc: "Europass-style CV, structured and formal",
 
     visibleFields: [
       "personal",
@@ -130,6 +138,8 @@ export const REGION_CONFIG: Record<RegionId, RegionConfig> = {
     name: "International",
     flag: "🌍",
     documentName: "Resume",
+
+    desc: "ATS-optimized one-page resume for global jobs",
 
     visibleFields: [
       "personal",
