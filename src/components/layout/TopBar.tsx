@@ -9,8 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RegionSwitcher } from "@/components/builder/RegionSwitcher";
 import { useResumeStore } from "@/stores/resumeStore";
+import { usePDF } from "@/hooks/usePDF";
 
 export function TopBar() {
+  const { exportPDF, isExporting } = usePDF();
+
   const resume = useResumeStore((state) => state.resume);
 
   // TODO: Replace with real auth state from Supabase
@@ -18,11 +21,6 @@ export function TopBar() {
 
   // TODO: Wire to actual save action
   const [isSaving] = useState(false);
-
-  const handleExportPDF = () => {
-    // TODO: Implement PDF export
-    console.log("Export PDF");
-  };
 
   const handleTitleChange = (title: string) => {
     // TODO:
@@ -76,9 +74,14 @@ export function TopBar() {
             )}
           </Button>
 
-          <Button size="sm" onClick={handleExportPDF}>
-            <Download className="mr-2 h-4 w-4" />
-            Export PDF
+          <Button
+            size="sm"
+            onClick={exportPDF}
+            disabled={isExporting}
+            className="gap-2"
+          >
+            <Download className="mr-2 w-4 h-4" />
+            {isExporting ? "Exporting..." : "Export PDF"}
           </Button>
 
           {user ? (

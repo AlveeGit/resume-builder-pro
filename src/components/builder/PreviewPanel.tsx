@@ -27,6 +27,7 @@ export function PreviewPanel() {
       <div className="flex-1 overflow-auto bg-muted/30 p-6 flex justify-center">
         {/* A4 SCALE WRAPPER */}
         <div
+          id="resume-preview"
           className="
             origin-top
             bg-white
@@ -39,7 +40,7 @@ export function PreviewPanel() {
             transform: "scale(0.8)",
           }}
         >
-          <ResumeRenderer />
+          <ResumeRenderer resume={resume} />
         </div>
       </div>
     </div>
