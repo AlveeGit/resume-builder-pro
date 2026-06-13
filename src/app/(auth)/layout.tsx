@@ -19,7 +19,8 @@ export default async function AuthLayout({
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="">
+    {/* <div className="min-h-screen flex items-center justify-center bg-background"> */}
       {children}
     </div>
   );
